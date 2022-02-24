@@ -145,8 +145,8 @@ def playGame(opener, validInputs, validSolutions):
     currentPossibleSolutions = validSolutions[:]
 
     while currentTry < 7:
-        print("Try{}: {} Remaining: {}".format(currentTry,
-              currentExpression, len(currentPossibleSolutions)))
+        print("Remaining: {} Try{}: {}".format(len(currentPossibleSolutions),
+              currentExpression, currentTry))
 
         similitud = checkSimilitud(currentExpression, solution)
         if similitud == [2, 2, 2, 2, 2, 2]:  # HARDCODED
@@ -166,7 +166,7 @@ def playGame(opener, validInputs, validSolutions):
 
 
 def main():
-    opener = "12-8=4"  # Se cambia a mano según que expresión se quiera ver
+    opener = "12-7=5"  # Se cambia a mano según que expresión se quiera ver
     Niterations = 100
     global patterns
     patterns = generateAllPatterns()

@@ -6,7 +6,7 @@ def checkValidity(eqStr, avoidedPatterns):
     Cases in which the eq is not a valid input>
     1) ^[*/=]
     2) [=][/*]
-    3) [+/][*]
+    3) [+/][*/]
     4) [=][\d-+]+[*+-/]
 
      """
@@ -32,7 +32,7 @@ def reduceToValidExpressions():
     validExpressions = []
 
     avoidedPatterns = re.compile(
-        r'(^[*/=]|[=][/*]|[+/][*]|[=][\d+-]+[*+-/])')
+        r'(^[*/=]|[=][/*]|[+/][*/]|[=][\d+-]+[*+-/])')
 
     # Reading possibleInputs file and copying the valid expressions onto a list
     with open("possibleInputs.txt", "r") as f:
