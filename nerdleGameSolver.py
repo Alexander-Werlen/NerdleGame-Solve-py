@@ -9,10 +9,10 @@ import os
 
 
 def createInfoTxt(infoList):
-    if os.path.exists("infoList.txt"):
-        os.remove("infoList.txt")
+    if os.path.exists("infoList8.txt"):
+        os.remove("infoList8.txt")
 
-    with open("infoList.txt", "a") as f:
+    with open("infoList8.txt", "a") as f:
         for expression in infoList:
             f.write("{} {}\n".format(expression[0], expression[1]))
 
@@ -25,7 +25,7 @@ def checkPattern(pattern, currentExpression, expression):
     for index, similitud in enumerate(pattern):
         if similitud == "0" and (currentExpression[index] in expression):
             return False
-        elif similitud == "1" and (currentExpression[index] not in expression or currentExpression[index] == expression[index]):
+        elif similitud == "1" and (currentExpression[index] == expression[index] or currentExpression[index] not in expression):
             return False
         elif similitud == "2" and (currentExpression[index] != expression[index]):
             return False
@@ -55,8 +55,8 @@ def calculateInformationVariables(expression, possibleSolutions, patterns):
     """
 
     EinfoOfExpression = 0
-
     for pattern in patterns:
+
         Px = calculatePx(pattern, expression, possibleSolutions)
         if Px != 0:  # Avoiding division by 0
             EinfoOfExpression += Px*math.log((1/Px), 2)
@@ -68,7 +68,8 @@ def main():
 
     # Parsing the .txt's into a lists
 
-    with open("validInputs.txt", "r") as f:
+    # voy a tomar como que las unicas valid inputs son las posibles soluciones. Me veo obligado a esto ya que si no achico el set de posibles opciones se apaga el sol antes de que termine de computar todos los valores
+    with open("validSolutions8.txt", "r") as f:
         validInputs = []
 
         for expression in f:
@@ -77,7 +78,7 @@ def main():
 
         pass
 
-    with open("validSolutions.txt", "r") as f:
+    with open("validSolutions8.txt", "r") as f:
         possibleSolutions = []
 
         for expression in f:
@@ -90,7 +91,7 @@ def main():
     1: if sign in eq but not in that place
     2: if sign in eq in that place
     """
-    numberOfTiles = 6  # HARDCODED
+    numberOfTiles = 8  # HARDCODED
 
     patterns = []
 
@@ -106,11 +107,15 @@ def main():
     total = len(validInputs)  # DEBUGING
 
     for expression in validInputs:
+        print(round(len(informationList)/total, 3) * 100)  # DEBUGING
+
         EinfoOfExpression = calculateInformationVariables(
             expression, possibleSolutions, patterns)
 
+        print("{} info: {}".format(expression, EinfoOfExpression))
+
         informationList.append((expression, EinfoOfExpression))
-        print(round(len(informationList)/total, 3) * 100)
+
     # Sorting list
 
     def sortingKey(e):

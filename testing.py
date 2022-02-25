@@ -1,3 +1,2 @@
-r = "00000="
-
-print(len(r.split("=")))
+e = 00000
+print(e.split("="))

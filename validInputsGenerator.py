@@ -1,54 +1,57 @@
+import itertools
+import os
 import re
 
 
-def checkValidity(eqStr, avoidedPatterns):
+def isValidInput(expression, avoidedPatterns):
     """ 
-    Cases in which the eq is not a valid input>
+    Cases in which the eq is not a valid input:
+    0A) tiene más o menos de un =
+    0B) el lado de la izquierda no da el resultado de la derecha
     1) ^[*/=]
     2) [=][/*]
     3) [+/][*/]
     4) [=][\d-+]+[*+-/]
-
      """
-    try:
-        split = eqStr.split("=")
-        if len(split) != 2:
-            return False
 
+    split = expression.split("=")
+    if len(split) != 2:
+        return False
+
+    try:
         if eval(split[0]) != eval(split[1]):
             return False
 
-        if avoidedPatterns.search(eqStr):
-            return False
-        else:
-            return True
     except Exception:
         return False
 
+    if avoidedPatterns.search(expression):
+        return False
+    else:
+        return True
 
-def reduceToValidExpressions():
-    import os
 
-    validExpressions = []
+def getAllPossibleStrings(possibleCharacters, numberOfTiles):
+    # Funtion creates a txt file with all possible strings written on it by line
+    # Input possibleCharacters is a string with all the possible characters without any split Ex: "1234567890=+*-/"
 
     avoidedPatterns = re.compile(
         r'(^[*/=]|[=][/*]|[+/][*/]|[=][\d+-]+[*+-/])')
 
-    # Reading possibleInputs file and copying the valid expressions onto a list
-    with open("possibleInputs.txt", "r") as f:
-        for expression in f:
+    if os.path.exists("possibleInputs8.txt"):
+        os.remove("possibleInputs8.txt")
 
-            if checkValidity(expression[:-1], avoidedPatterns):
-                validExpressions.append(expression)
-        pass
+    with open("possibleInputs8.txt", "a") as f:
 
-    # Writing the valid expressions on the list onto another file
-    if os.path.exists("validInputs.txt"):
-        os.remove("validInputs.txt")
+        def foo(l, numberOfTiles):
+            yield from itertools.product(*([l] * numberOfTiles))
 
-    with open("validInputs.txt", "a") as f:
-        for expression in validExpressions:
-            f.write(expression)
+        for x in foo(possibleCharacters, numberOfTiles):
+            expression = ''.join(x)
+
+            if isValidInput(expression, avoidedPatterns):
+
+                f.write(expression + "\n")
 
         pass
 
@@ -56,7 +59,7 @@ def reduceToValidExpressions():
 
 
 def main():
-    reduceToValidExpressions()
+    getAllPossibleStrings("0123456789+-*/=", 8)
 
     return
 
