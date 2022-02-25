@@ -42,14 +42,14 @@ def main():
     2) [+-][+-]
     3) [=][-+/*]
     4) [+*/][+/]
-    5) [+/][*]
+    5) [+/*][*]
     6) [=][\d-]+[*+-/]
     7) [\D]0\d
     8) [\D]0[\D]
 
      """
     avoidedPatterns = re.compile(
-        r'(^[-+*/=0]|[\D]0[\D]|[+-][+-]|[=][-+/*]|[+*/][-+/]|[+/][*]|[=][\d-]+[*+-/]|[\D]0\d)')
+        r'(^[-+*/=0]|[\D]0[\D]|[+-][+-]|[=][-+/*]|[+*/][-+/]|[+/*][*]|[=][\d-]+[*+-/]|[\D]0\d)')
 
     possibleSolutions = [
         expression for expression in validInputs if isValidSolution(expression, avoidedPatterns)]
