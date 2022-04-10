@@ -56,7 +56,6 @@ def calculateInformationVariables(expression, possibleSolutions, patterns):
 
     EinfoOfExpression = 0
     for pattern in patterns:
-
         Px = calculatePx(pattern, expression, possibleSolutions)
         if Px != 0:  # Avoiding division by 0
             EinfoOfExpression += Px*math.log((1/Px), 2)
